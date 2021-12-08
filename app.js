@@ -29,26 +29,12 @@ const userSchema = new mongoose.Schema({    //to be removed
     }
 });
 
-const ManSchema = new mongoose.Schema({
-    name : String ,
-    email: {
-        type :String,
-        required : true
-    },
-    resName : String, 
-    resLoc  : String,
-    password :{
-        type :String,
-        required : true
-    }
-});
-
 
 userSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] });
-ManSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] }); 
+
 
 const User = new mongoose.model("User",userSchema);
-const Manager = new mongoose.model("Manager",ManSchema);
+
 
 app.get("/",function(req,res){
     res.render("index");
@@ -86,18 +72,6 @@ app.post("/Sign_up",function(req,res){
     })
 
     Occ = req.body.occupation;
-    if(Occ === "manager"){
-      ManUser.save(function(err){
-        if(err){
-            console.log(err);
-            res.write("<h1>An error occurred while submitting the form :/</h1>");
-            res.write("<h2>Try filling the form once again</h2>")
-        }
-        else{
-            res.render("staff_management");
-        }
-      })
-    }else{
     newUser.save(function(err){
         if(err){
             console.log(err);
@@ -107,7 +81,7 @@ app.post("/Sign_up",function(req,res){
             res.render("staff_management");    //Add option for menu and other facilities instead of staff management
         }
     }); 
-    }
+    
 });
 
 app.post("/Login",function(req,res){
@@ -116,19 +90,7 @@ app.post("/Login",function(req,res){
     console.log(req.body.email);
     // Add option to specify Manager or employee  
     
-    if(Occ === "manager"){
-        Manager.findOne({email : email}, function(err, foundUser){
-            if(err){
-                console.log(err);
-            }else{
-                if(foundUser){
-                    if(foundUser.password === password){
-                        res.render("staff_management");
-                    }
-                }
-            }
-        })
-    }else{
+ 
     User.findOne({email : email}, function(err, foundUser){
         if(err){
             console.log(err);
@@ -140,7 +102,7 @@ app.post("/Login",function(req,res){
             }
         }
     })
-    } 
+    
 });
 
 app.listen(3000, function () {
