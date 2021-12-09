@@ -5,16 +5,12 @@ img{
   float: left;
   padding-left: 76px;
 }
-a, a:hover, a:focus, a:active {
-      text-decoration: none;
-      color: inherit;
- }
-.reservations{
+.ngo_log{
   width: 700px;
   height: 400px;
   margin: auto;
-  background-color: #ffd8d1;
-  color: black;
+  background-color: #c2ffff;
+  color: coral;
   border-radius: 12px;
   margin-top: 150px;
   margin-bottom: 100px;
@@ -37,39 +33,25 @@ button{
   font-family: 'Baloo Bhai', cursive;
   border-radius: 20px;
   border: none;
-  background-color: #ff4524;
-  color: black;
+  background-color: teal;
+  color: coral;
 }
 button:hover{
-  background-color: black;
-  color: #ff4524;
+  background-color: coral;
+  color: teal;
 }
 td{
   padding-left: 20px;
   padding-right: 20px;
 }
-form{
-  padding-top: 50px;
-  text-align: justify;
-  clear: both;
-  margin-top: 30px;
-  margin-left: 100px;
-}
-input{
-   background: transparent;
-   border: none;
-   border-bottom: 1px solid #000000;
-   width: 350px;
-}
-.book{
-  height: 700px;
-  width: 550px;
-}
-.check{
+td{
   position: relative;
   left: 100px;
 }
-h2{
+.updated{
+  color: black;
+  padding-left: 20px;
+}
+.updated h2{
   padding-top: 30px;
-  padding-left: 180px;
 }
