@@ -36,14 +36,25 @@
       <td>10 plates Momos, 10 kilos Chicken Tandoori and 5 plates Galauti Kabab</td>
       <td>robin_hood@icloud.com</td>
     </tr>
+    <tr>
     <td>4</td>
     <td>25 July, 2021</td>
     <td>Humsafar</td>
     <td>20 Burgers, 10 Pizzas and 10 plates Pav Bhaaji</td>
     <td>humsafar23@gmail.com</td>
+    </tr>
+    <% Logs.forEach(function(item){ %>
+    <tr>
+      <td> </td> 
+      <td> <%= item.date %></td>
+      <td> <%= item.name %></td>
+      <td> <%= item.text %></td>
+      <td> <%= item.email %></td>
+    </tr>
+    <% }); %>
   </table>
   <center>
-  <a href="update_ngo_log.html"><button type="button" name="button">Update Log</button></a>
+  <a href="update_ngo_log"><button type="button" name="button">Update Log</button></a>
   </center>
 </div>
   </body>

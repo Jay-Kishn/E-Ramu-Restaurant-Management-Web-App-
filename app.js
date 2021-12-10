@@ -14,7 +14,7 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/userDB", { useUnifiedTopology: true, useNewUrlParser: true });
 
-const userSchema = new mongoose.Schema({    
+const userSchema = new mongoose.Schema({    //Creating a schema for the manager/user
     name : String ,
     email: {
         type :String,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const empSchema = new mongoose.Schema({   
+const empSchema = new mongoose.Schema({   //create a schema for employee records
     name : String ,
     EmpID:String,
     Designation: String,
@@ -37,42 +37,59 @@ const empSchema = new mongoose.Schema({
     Salary : String
 });
 
+const ngoSchema = new mongoose.Schema({    //creating a schema for ngo records
+    date : String , 
+    name:String,
+    food: String,
+    email : String, 
+    text : String
+});
 
 
-userSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] });
+userSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] });  //Encrypting the password
 
 
-const User = new mongoose.model("User",userSchema);
-const Emp = new mongoose.model("Emp",empSchema);
+const User = new mongoose.model("User",userSchema);  //Creating a model using userSchema
+const Emp = new mongoose.model("Emp",empSchema);       //Creating a model using empSchema
+const Ngo = new mongoose.model("Ngo",ngoSchema);       //Creating a model using ngoSchema
 
-
-app.get("/",function(req,res){
+app.get("/",function(req,res){                         //get request for the home route
     res.render("index");
  });
 
- app.get("/index",function(req,res){
+ app.get("/index",function(req,res){                   //get request for the index
     res.render("index");
  });
 
-app.get("/Login",function(req,res){
+app.get("/Login",function(req,res){                    //get request for the Login route
    res.render("Login");
 });
 
 
-app.get("/Sign_up",function(req,res){
+app.get("/Sign_up",function(req,res){                  //get request for the Sign up page 
     res.render("Sign_up");
 });
 
-app.get("/services",function(req,res){
+app.get("/services",function(req,res){                //get request for the services page
     res.render("Login");
 });
 
            
-app.get("/staff_management",function(req,res){
+app.get("/staff_management",function(req,res){       //get request for the staff management page
     res.render("staff_management");
 });
 
-app.get("/staff_management_view_employee_details", function (req, res) {
+app.get("/ngo_log",function(req,res){                //get request for the ngo log
+res.render("ngo_log");
+});
+
+
+app.get("/update_ngo_log",function(req,res){          //get request for the updation of ngo log
+res.render("update_ngo_log");
+});
+
+
+app.get("/staff_management_view_employee_details", function (req, res) {  //get request for viewing employee deets
     console.log("staff management view has loaded");
     Emp.find(function (err, foundItems) {
         if(err){
@@ -84,18 +101,56 @@ app.get("/staff_management_view_employee_details", function (req, res) {
   });
 
 
-app.get("/staff_management_alter",function(req,res){
+app.get("/staff_management_alter",function(req,res){         //get request for altering the staff management deets
     res.render("staff_management_alter");
 });
 
-app.post("staff_management_view_employee_details",function(req,res){
+app.get("/updated_ngo_log",function(req,res){     
+    res.render("updated_ngo_log");
+});
+
+app.get("/view_ngo_log", function (req, res) {  //get request for viewing employee deets
+    console.log("NGO Log has loaded");
+    Ngo.find(function (err, foundItems) {
+        if(err){
+            console.log(err);
+        }else{
+        res.render("view_ngo_log", {Logs: foundItems });
+        }
+    })
+  });
+
+
+app.post("/update_ngo_log",function(req,res){
+    console.log(req.body);
+    const newNgo = Ngo({
+        date : req.body.date,
+        text: req.body.text,
+        name: req.body.name,
+        email : req.body.email,
+    });
+    newNgo.save(function(err){
+        if(err){
+            console.log(err);
+            res.write("<h1>An error occurred while submitting the form :/</h1>");
+            res.write("<h2>Try filling the form once again</h2>")
+        }else{
+            res.redirect("updated_ngo_log");    //Add option for menu and other facilities instead of staff management
+        }
+    }); 
+});
+   
+
+
+app.post("staff_management_view_employee_details",function(req,res){  //Post request for viewing employee
+    // details(check vailidity almsot useless)
      console.log(req.body);
  
 });
 
 
 
-app.post("/staff_management_alter",function(req,res){
+app.post("/staff_management_alter",function(req,res){    // Post request for adding staff 
     console.log(req.body);
     const newEmp = new Emp({
         name :  req.body.name,
@@ -116,7 +171,7 @@ app.post("/staff_management_alter",function(req,res){
        }); 
 });
 
-app.post("/Sign_up",function(req,res){
+app.post("/Sign_up",function(req,res){   //Post request for Signing up 
     const newUser = new User({
      name :  req.body.Name,
      email: req.body.email,
@@ -129,10 +184,9 @@ app.post("/Sign_up",function(req,res){
     newUser.save(function(err){
         if(err){
             console.log(err);
-            res.write("<h1>An error occurred while submitting the form :/</h1>");
-            res.write("<h2>Try filling the form once again</h2>")
+            res.render("failed_signup");
         }else{
-            res.render("services");    //Add option for menu and other facilities instead of staff management
+            res.render("services");    
         }
     }); 
     
@@ -141,7 +195,7 @@ app.post("/Sign_up",function(req,res){
 
 
 
-app.post("/Login",function(req,res){
+app.post("/Login",function(req,res){    //Post request to take and authenticate login data 
     const email = req.body.email;
     const password = req.body.password;
     console.log(req.body.email);
@@ -150,7 +204,7 @@ app.post("/Login",function(req,res){
     User.findOne({email : email}, function(err, foundUser){
         if(err){
             console.log(err);
-            res.write("<h1>Check the login credentials again :/</h1>");
+            res.render("failed_login");
         }else{
             if(foundUser){
                 if(foundUser.password === password){
@@ -162,10 +216,9 @@ app.post("/Login",function(req,res){
 
 });
 
-app.listen(3000, function () {
+app.listen(3000, function () {                    //Listening to the server at port 3000
     console.log("Server started on port 3000");
   });
   
 
 
-//Last update : Working on the alter employee name table
