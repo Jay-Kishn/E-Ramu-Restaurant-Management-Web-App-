@@ -43,9 +43,10 @@
     <td>20 Burgers, 10 Pizzas and 10 plates Pav Bhaaji</td>
     <td>humsafar23@gmail.com</td>
     </tr>
+    <% var i= 5%>
     <% Logs.forEach(function(item){ %>
     <tr>
-      <td> </td> 
+      <td><%= i++ %></td> 
       <td> <%= item.date %></td>
       <td> <%= item.name %></td>
       <td> <%= item.text %></td>

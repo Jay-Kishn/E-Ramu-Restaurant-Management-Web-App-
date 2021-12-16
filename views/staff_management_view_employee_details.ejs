@@ -52,8 +52,7 @@
         <% let i=4 %>
         <% Entry.forEach(function(item){ %>
         <tr>
-          <% i=+1 %>
-          <td><% i %></td>
+          <td><%= i++ %></td>
           <td><%= item.name %></td>
           <td><%= item.EmpID %></td>
           <td><%= item.Designation %></td>
