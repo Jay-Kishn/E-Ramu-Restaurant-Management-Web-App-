@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/userDB", { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect("mongodb+srv://Jay-Kishnani:eramudata@cluster0.mrm71.mongodb.net/userDB", { useUnifiedTopology: true, useNewUrlParser: true });
 
 const userSchema = new mongoose.Schema({    //Creating a schema for the manager/user
     name : String ,
@@ -216,8 +216,13 @@ app.post("/Login",function(req,res){    //Post request to take and authenticate 
 
 });
 
-app.listen(3000, function () {                    //Listening to the server at port 3000
-    console.log("Server started on port 3000");
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function () {                    //Listening to the server at port 3000
+    console.log("Server has started successfully");
   });
   
 
