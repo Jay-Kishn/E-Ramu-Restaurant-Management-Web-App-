@@ -88,6 +88,21 @@ app.get("/update_ngo_log",function(req,res){          //get request for the upda
 res.render("update_ngo_log");
 });
 
+app.get("/review_view",function(req,res){
+res.sendFile(__dirname+"/views/review_view.html");
+});
+
+app.get("/review.html",function(req,res){
+res.sendFile(__dirname+"/views/review.html");
+});
+
+app.get("/update_reviews",function(req,res){
+res.render("update_reviews");
+});
+
+app.get("/updated_reviews.html",function(req,res){
+    res.sendFile(__dirname+"/views/updated_reviews.html")
+});
 
 app.get("/staff_management_view_employee_details", function (req, res) {  //get request for viewing employee deets
     console.log("staff management view has loaded");
@@ -126,6 +141,10 @@ app.get("/view_ngo_log", function (req, res) {  //get request for viewing employ
 
 
 
+app.post("/update_reviews",function(req,res){
+    console.log(req.body);
+});
+    
 
 app.post("/update_ngo_log",function(req,res){
     console.log(req.body);

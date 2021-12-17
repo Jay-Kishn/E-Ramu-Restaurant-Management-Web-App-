@@ -58,6 +58,9 @@ button{
   color: coral;
   margin-top: 30px;
 }
+body{
+  background-color: #D1E8E4;
+}
 button:hover{
   background-color:coral;
   color:  teal;

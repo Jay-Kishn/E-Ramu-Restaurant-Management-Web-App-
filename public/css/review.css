@@ -63,6 +63,11 @@ button:hover{
   background-color:#7a6f59;
   color:  wheat;
 }
+
+body{
+  background-color: #D1E8E4;
+}
+
 h2{
   font-family: 'Baloo Bhai', cursive;
   font-size: 1.6rem;

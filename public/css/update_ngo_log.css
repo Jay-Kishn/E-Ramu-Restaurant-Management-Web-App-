@@ -27,6 +27,9 @@ input{
    border-bottom: 1px solid #000000;
    width: 350px;
 }
+body{
+  background-color: #D1E8E4;
+}
 .ngo_update{
   font-family: 'Baloo Bhai', cursive;
   margin-left:  auto;

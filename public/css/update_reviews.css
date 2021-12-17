@@ -27,6 +27,11 @@ input{
    border-bottom: 1px solid #494235;
    width: 350px;
 }
+
+body{
+  background-color: #D1E8E4;
+}
+
 .review_update{
   font-family: 'Baloo Bhai', cursive;
   margin-left:  auto;
