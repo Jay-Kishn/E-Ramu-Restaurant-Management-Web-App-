@@ -101,7 +101,8 @@ app.get("/staff_management_view_employee_details", function (req, res) {  //get 
   });
 
 app.get("/bill_generator",function(req,res){                 //get request for the bill generator 
-    res.render("bill_generator");
+    res.sendFile(__dirname+"/bill_generator/bill_generator.html");
+
 });
 
 app.get("/staff_management_alter",function(req,res){         //get request for altering the staff management deets
@@ -122,6 +123,8 @@ app.get("/view_ngo_log", function (req, res) {  //get request for viewing employ
         }
     })
   });
+
+
 
 
 app.post("/update_ngo_log",function(req,res){
