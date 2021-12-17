@@ -100,6 +100,9 @@ app.get("/staff_management_view_employee_details", function (req, res) {  //get 
     })
   });
 
+app.get("/bill_generator",function(req,res){                 //get request for the bill generator 
+    res.render("bill_generator");
+});
 
 app.get("/staff_management_alter",function(req,res){         //get request for altering the staff management deets
     res.render("staff_management_alter");
