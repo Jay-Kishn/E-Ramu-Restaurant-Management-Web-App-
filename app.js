@@ -12,7 +12,9 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://Jay-Kishnani:eramudata@cluster0.mrm71.mongodb.net/userDB", { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/userDB", { useUnifiedTopology: true, useNewUrlParser: true });    //for local database
+//mongoose.connect("mongodb+srv://Jay-Kishnani:eramudata@cluster0.mrm71.mongodb.net/userDB", { useUnifiedTopology: true, useNewUrlParser: true });  
+//for cloud database
 
 const userSchema = new mongoose.Schema({    //Creating a schema for the manager/user
     name : String ,
@@ -45,13 +47,27 @@ const ngoSchema = new mongoose.Schema({    //creating a schema for ngo records
     text : String
 });
 
+const revSchema = new mongoose.Schema({   //create a schema for customer reviews
+    date: String,
+    name:{
+        type :String,
+        required : true
+    },
+    review:{
+        type :String,
+        required : true
+    },
+    number:String,
+    email:String,
+});
 
 userSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] });  //Encrypting the password
 
 
 const User = new mongoose.model("User",userSchema);  //Creating a model using userSchema
 const Emp = new mongoose.model("Emp",empSchema);       //Creating a model using empSchema
-const Ngo = new mongoose.model("Ngo",ngoSchema);       //Creating a model using ngoSchema
+const Ngo = new mongoose.model("Ngo",ngoSchema);
+const Rev = new mongoose.model("Rev",revSchema);       //Creating a model using ngoSchema
 
 app.get("/",function(req,res){                         //get request for the home route
     res.render("index");
@@ -92,8 +108,19 @@ app.get("/review_view",function(req,res){
 res.sendFile(__dirname+"/views/review_view.html");
 });
 
-app.get("/review.html",function(req,res){
-res.sendFile(__dirname+"/views/review.html");
+app.get("/menu",function(req,res){
+    res.sendFile(__dirname+"/menu/menu.html");
+});
+
+app.get("/review",function(req,res){
+console.log("Review Log has loaded");
+    Rev.find(function (err, foundItems) {
+        if(err){
+            console.log(err);
+        }else{
+        res.render("review", {Reviews: foundItems });
+        }
+    })
 });
 
 app.get("/update_reviews",function(req,res){
@@ -143,6 +170,22 @@ app.get("/view_ngo_log", function (req, res) {  //get request for viewing employ
 
 app.post("/update_reviews",function(req,res){
     console.log(req.body);
+    const newRev = Rev({
+        date : req.body.date,
+        name: req.body.name,
+        review: req.body.review,
+        number: req.body.number,
+        email : req.body.email,
+    });
+    newRev.save(function(err){
+        if(err){
+            console.log(err);
+            res.write("<h1>An error occurred while submitting the form :/</h1>");
+            res.write("<h2>Try filling the form once again</h2>")
+        }else{
+            res.redirect("updated_reviews.html");    //Add option for menu and other facilities instead of staff management
+        }
+    }); 
 });
     
 
@@ -160,7 +203,7 @@ app.post("/update_ngo_log",function(req,res){
             res.write("<h1>An error occurred while submitting the form :/</h1>");
             res.write("<h2>Try filling the form once again</h2>")
         }else{
-            res.redirect("updated_ngo_log");    //Add option for menu and other facilities instead of staff management
+            res.redirect("updated_ngo_log.html");    //Add option for menu and other facilities instead of staff management
         }
     }); 
 });
