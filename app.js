@@ -61,6 +61,15 @@ const revSchema = new mongoose.Schema({   //create a schema for customer reviews
     email:String,
 });
 
+
+const resvtnSchema = new mongoose.Schema({   //create a schema for reservation 
+    name:String,
+    date:String,
+    time:String,
+    customer_count:String,
+    phone:String
+});
+
 userSchema.plugin(encrypt,{secret : process.env.SECRET ,encryptedFields: ['password'] });  //Encrypting the password
 
 
@@ -68,6 +77,8 @@ const User = new mongoose.model("User",userSchema);  //Creating a model using us
 const Emp = new mongoose.model("Emp",empSchema);       //Creating a model using empSchema
 const Ngo = new mongoose.model("Ngo",ngoSchema);
 const Rev = new mongoose.model("Rev",revSchema);       //Creating a model using ngoSchema
+const Resvtn = new mongoose.model("Resvtn",resvtnSchema);
+
 
 app.get("/",function(req,res){                         //get request for the home route
     res.render("index");
@@ -155,6 +166,7 @@ app.get("/updated_ngo_log",function(req,res){
     res.render("updated_ngo_log");
 });
 
+
 app.get("/view_ngo_log", function (req, res) {  //get request for viewing employee deets
     console.log("NGO Log has loaded");
     Ngo.find(function (err, foundItems) {
@@ -166,6 +178,32 @@ app.get("/view_ngo_log", function (req, res) {  //get request for viewing employ
     })
   });
 
+app.get("/reserve_updated.html",function(req,res){
+    res.sendFile(__dirname+"/views/reserve_updated.html");
+ });
+
+app.get("/Reservation",function(req,res){
+   res.render("Reserve");
+})
+
+app.post("/Reserve",function(req,res){
+    const newResvtn = Resvtn({
+        name:req.body.name,
+        date:req.body.date,
+        time:req.body.time,
+        customer_count:req.body.customer_count,
+        phone:req.body.phone
+    });
+    newResvtn.save(function(err){
+        if(err){
+            console.log(err);
+            res.write("<h1>An error occurred while submitting the form :/</h1>");
+            res.write("<h2>Try filling the form once again</h2>");
+        }else{
+            res.redirect("reserve_updated.html") ;  //Add option for menu and other facilities instead of staff management
+        }
+    }); 
+})
 
 
 app.post("/update_reviews",function(req,res){
