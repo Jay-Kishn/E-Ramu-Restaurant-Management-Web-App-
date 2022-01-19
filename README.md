@@ -5,4 +5,18 @@
 <h3>Overview</h3>
 <p>The project aims to simplify the operations of a restaurant through automation of simple tasks through data structures and algorithms and with the interface of a web application.</p>
 
+<h3>Existing Softwares</h3>
+<p>Harbortouch</p>
+<p>micros by Oracle</p>
+<p>Square POS</p>
+<p>Revel</p>
+<p>Orca</p>
+<p>SimpleOrder </p>
+
+<h3>Screenshots</h3>
+
+
+
+
+
 
