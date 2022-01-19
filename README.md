@@ -1,6 +1,6 @@
 # E-Ramu
 <p>Your go-to restaurant manager</p>
-<p> You can view the deployment<a href="https://github.com/Jay-Kishn/https---github.com-Sumedha2-E-Ramu"> here </a>.</p>
+<p> You can view the deployment<a href="https://sumedha2.github.io/E-Ramu/"> here </a>.</p>
 
 <h2>Overview</h2>
 <p>The project aims to simplify the operations of a restaurant through automation of simple tasks through a database and GUI that are combined as a backend and frontend.</p>
