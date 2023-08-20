@@ -8,6 +8,7 @@
 <p>The project aims to simplify the operations of a restaurant through automation of simple tasks through a database and GUI that are combined as a backend and frontend.</p>
 
 <h2>Literature Review</h2>
+<p>Other similar softwares include</p>
 <p>Harbortouch</p>
 <p>micros by Oracle</p>
 <p>Square POS</p>
